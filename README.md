@@ -6,7 +6,7 @@ Next.js + chakra-ui + Tailwind CSS Example
 
 # Crypto Collectable Wallet
 
-![Thumbnail](https://github.com/CS6/Ithome-NFT-Collectable-Wallet/blob/master/Thumbnail.png)
+![Thumbnail](https://github.com/CS6/Ithome-NFT-Collectable-Wallet/blob/main/Thumbnail.png)
 
 > use Next.js + Tailwind CSS
 
