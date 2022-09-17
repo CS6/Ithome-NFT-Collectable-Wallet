@@ -56,7 +56,8 @@ export default function NFTCard(Props: Props) {
       >
         <Image
           flex="1"
-          objectFit="cover"
+          maxH="40vh"
+          objectFit="scale-down"
           loading="lazy"
           borderRadius="0"
           src={property?.image_preview_url || DefaultImageUrl}
