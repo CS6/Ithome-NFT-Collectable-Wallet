@@ -18,17 +18,34 @@ import { ItemCard, ItemCardProps } from '../components/list/ItemCard';
 import { ItemCardGroup } from '../components/list/ItemCardGroup';
 import { useCollectableService } from '../components/list/useCollectableService';
 import { withBottomDetection } from '../components/list/withBottomDetection';
+import { NextPage } from 'next/types';
+
+// import { ModelViewerElement } from '@google/model-viewer/lib/model-viewer';
+
+// // new ModelViewerElement(window);
+
+// // Ideal import statement
+// // import ModelViewer from "@google/model-viewer";
+
+// declare namespace JSX {
+//   interface IntrinsicElements {
+//     'Model-viewer': ModelViewerElement;
+//   }
+// }
 
 const BottomDetectableItemCardGroup = withBottomDetection(ItemCardGroup);
-
-export default function ListPage() {
+export default function ListPage(): NextPage {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [net, setNet] = useState(false);
   const [X_API_KEY, setApiKey] = useState(null); //X_API_KEY
   const [account, setAccount] = useState(
-    '0x5eECf513518EfB76d35Cab1A6c32f4558F415D16'
+    '0x000000000000000000000000000000000000dEaD'
   );
   // const [account, setAccount] = useState(null);
+
+  //[YU-GI-OH] 0x5eECf513518EfB76d35Cab1A6c32f4558F415D16
+  //0x08f762718391f39a62cb0d7e5fb940f477537254
+  //0x000000000000000000000000000000000000dEaD
 
   const { items, loadItems, setApiMode, setKey, setOwner } =
     useCollectableService();
@@ -36,7 +53,7 @@ export default function ListPage() {
   useEffect(() => {
     setApiMode(net);
     setKey(X_API_KEY);
-    setOwner('0x5eECf513518EfB76d35Cab1A6c32f4558F415D16');
+    setOwner('0x000000000000000000000000000000000000dEaD');
     //  setOwner(account);
     // in test 0x99581C954C77462899F6172075eAB08299B9f54D
   }, [account, net, X_API_KEY]);

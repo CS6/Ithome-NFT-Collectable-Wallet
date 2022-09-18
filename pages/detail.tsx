@@ -41,6 +41,10 @@ export default function DetailPage(props: any) {
   }, [router.query]);
 
   useEffect(() => {
+    if (!router.query.contract || !router.query.token_id) {
+      return;
+    }
+
     const options = { method: 'GET' };
 
     fetch(
@@ -63,13 +67,14 @@ export default function DetailPage(props: any) {
           owner_img: data.top_ownerships[0].owner.profile_img_url,
           creator: data.creator.address,
           creator_img: data.creator.profile_img_url,
+          animation_url: data.animation_url,
         };
         setData(items);
         setAPILoading(true);
         console.log(items);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [router.query.contract, router.query.token_id]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center ">

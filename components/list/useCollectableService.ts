@@ -39,7 +39,7 @@ export function useCollectableService() {
 
     function fetchItemsFromTestNet() {
       return fetch(
-        `https://testnets-api.opensea.io/api/v1/assets?owner=${owner}&order_direction=desc&offset=${items.length}&limit=20&include_orders=false`,
+        `https://testnets-api.opensea.io/api/v1/assets?owner=${owner}&order_direction=desc&offset=${items.length}&limit=40&include_orders=false`,
         { method: 'GET' }
       );
     }
@@ -72,7 +72,7 @@ export function useCollectableService() {
       .then((newItems) => {
         console.log(items, newItems, newItems.length);
         setItems((items) => items.concat(newItems));
-        setAllItemsLoaded(newItems.length < 20);
+        setAllItemsLoaded(newItems.length < 40);
       })
       .catch((err) => console.error(err));
   }

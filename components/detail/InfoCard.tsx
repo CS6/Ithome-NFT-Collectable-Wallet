@@ -1,5 +1,5 @@
 // ConnectButton.tsx
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect, useLayoutEffect } from 'react';
 import {
   Flex,
   Button,
@@ -11,6 +11,11 @@ import {
   Avatar,
   Stack,
 } from '@chakra-ui/react';
+import Head from 'next/head';
+
+import dynamic from 'next/dynamic';
+const Model = dynamic(() => import('./model'), { ssr: false });
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 const DefaultImageUrl =
   'https://testnets.opensea.io/static/images/placeholder.png';
@@ -28,16 +33,62 @@ interface infoProps {
   owner_img: string;
   creator: string;
   creator_img: string;
+  animation_url: string;
 }
 
 interface Props {
   info?: infoProps;
 }
 
+let ddd = ['gltf', 'glb', 'GLTF', 'GLB'];
+
+let video = [
+  'webm',
+  'mp4',
+  'm4v',
+  'ogv',
+  'ogg',
+  'WEBM',
+  'MP4',
+  'M4V',
+  'OGV',
+  'OGG',
+];
+
+let audio = ['mp3', 'wav', 'oga', 'MP3', 'WAV', 'OGA'];
+
+function judge_URL_file_extension(url: string) {
+  if (url == null) {
+    return 'img'; //預設顯示3D
+  } else {
+    let file_type = url.substring(url.lastIndexOf('.') + 1);
+
+    if (audio.indexOf(file_type) !== -3) {
+      return 'audio';
+    } else if (video.indexOf(file_type) !== -3) {
+      return 'video';
+    } else if (ddd.indexOf(file_type) !== -3) {
+      return '3d';
+    } else {
+      return 'img';
+    }
+  }
+}
+
 export default function NFTCard(Props: Props) {
-  const property = Props.info;
+  const property = Props.info as infoProps;
+  useEffect(() => {}, []);
+
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+    }
+  }, []);
+
   return (
     <>
+      <Head>
+        <title>My page title</title>
+      </Head>
       <Box
         // onClick={() => alert('button clicked')}
         color="gray.500"
@@ -54,15 +105,67 @@ export default function NFTCard(Props: Props) {
         flexDirection="column"
         pb="0"
       >
-        <Image
-          flex="1"
-          maxH="40vh"
-          objectFit="scale-down"
-          loading="lazy"
-          borderRadius="0"
-          src={property?.image_preview_url || DefaultImageUrl}
-          alt={property?.name}
-        />
+        {judge_URL_file_extension(property.animation_url) == 'audio' && (
+          <Box
+            flex="1"
+            maxH="50vh"
+            objectFit="scale-down"
+            borderRadius="0"
+            id="ReactPlayer"
+          >
+            <ReactPlayer
+              controls="true"
+              file="forceAudio"
+              width="100%"
+              height="100px"
+              // light="true"
+              url="https://openseauserdata.com/files/17080912dc80c44654dd462b64c89ec9.mp3"
+            />
+          </Box>
+        )}
+        {judge_URL_file_extension(property.animation_url) == 'video' && (
+          <Box
+            flex="1"
+            maxH="50vh"
+            objectFit="scale-down"
+            borderRadius="0"
+            id="ReactPlayer"
+          >
+            <ReactPlayer
+              className="react-player"
+              width="100%"
+              height="100%"
+              url="https://openseauserdata.com/files/af6985812ed4a5f8ae9336116bd8f841.mp4"
+            />
+          </Box>
+        )}
+        {judge_URL_file_extension(property.animation_url) == '3d' && (
+          <Box
+            flex="1"
+            maxH="40vh"
+            objectFit="scale-down"
+            borderRadius="0"
+            id="modelviewer"
+          >
+            <Model
+              glbFile={
+                'https://openseauserdata.com/files/e085da0987a623f329d9587723a12b8d.gltf'
+              }
+            />
+          </Box>
+        )}
+        {judge_URL_file_extension(property.animation_url) == 'img' && (
+          <Image
+            flex="1"
+            maxH="40vh"
+            objectFit="scale-down"
+            loading="lazy"
+            borderRadius="0"
+            src={property?.image_preview_url || DefaultImageUrl}
+            alt={property?.name}
+          />
+        )}
+
         <Box px="4" py="3">
           <Box
             display="flex"
